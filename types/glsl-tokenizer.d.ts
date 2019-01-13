@@ -25,6 +25,6 @@ declare module 'glsl-tokenizer' {
 
 declare module 'glsl-tokenizer/string' {
   import { Token, TokenizeStringOptions } from 'glsl-tokenizer';
-  function tokenizeString(str: string, opt: TokenizeStringOptions): Token[];
+  function tokenizeString(str: string, opt?: TokenizeStringOptions): Token[];
   export = tokenizeString;
 }

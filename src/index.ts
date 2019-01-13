@@ -6,7 +6,7 @@ export const defaultOptions = {};
 export const languages = [
   {
     name: 'GLSL',
-    parsers: ['glsl-parse'],
+    parsers: ['glsl'],
     extensions: ['.vert', '.frag'],
     aceMode: 'glsl',
     linguistLanguageId: 124,
@@ -14,7 +14,7 @@ export const languages = [
 ];
 
 export const parsers = {
-  'glsl-parse': {
+  glsl: {
     parse,
     astFormat: 'glsl-ast',
     locStart(_node: any) {
