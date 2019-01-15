@@ -6,9 +6,11 @@ interface Print {
 }
 // interface Visitor { (path: FastPath, print: Print): Doc; }
 
-const { concat, hardline, line, join, group } = doc.builders;
+const { concat, hardline, line, indent, join, group } = doc.builders;
+const groupConcat = (docs: Doc[]) => group(concat(docs));
 
 export function print(path: FastPath, options: any, print: Print): Doc {
+  const { originalText } = options;
   const node = path.getValue() as ASTNode;
   if (!node) return '';
   switch (node.type) {
@@ -18,15 +20,24 @@ export function print(path: FastPath, options: any, print: Print): Doc {
       return concat([node.token.data, hardline]);
     case 'precision':
       return group(
-        concat([
-          join(line, [node.token.data, ...path.map(print, 'children')]),
-          hardline,
-        ])
+        join(line, [node.token.data, ...path.map(print, 'children')])
       );
     case 'keyword':
       return node.token.data;
     case 'stmt':
-      return concat([join(line, path.map(print, 'children')), hardline]);
+      return concat([
+        groupConcat([join(line, path.map(print, 'children')), ';']),
+        hardline,
+      ]);
+    case 'decl':
+      // TODO: many placeholders...?
+      return concat([
+        groupConcat([
+          node.token.data,
+          line,
+        ]),
+        hardline,
+      ]);
   }
   return `${node.type} ( ${node.token.data} ) {
     ${path.map(print, 'children')}
