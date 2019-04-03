@@ -57,7 +57,11 @@ declare module 'glsl-parser' {
     | 'discard'
     | 'do-while'
     | 'placeholder'
-    | 'quantifier';
+    | 'quantifier'
+    | 'operator'
+    | 'assign'
+    | 'call'
+    | 'builtin';
   export interface ASTNode {
     mode: ASTNodeMode;
     token: AbstractToken | Token;
@@ -65,6 +69,8 @@ declare module 'glsl-parser' {
     children: ASTNode[];
     type: ASTStatementType;
     id: string;
+    expecting?: string[];
+    scope?: { [name: string]: ASTNode };
   }
 }
 
